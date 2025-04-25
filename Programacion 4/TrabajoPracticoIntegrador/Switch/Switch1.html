@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let dia = prompt("Ingrese un dia de la semana: ");
+        switch (dia) {
+            case "lunes":
+            case "martes":
+            case "miercoles":
+            case "jueves":
+            case "viernes":
+                alert(dia + " es laborable");
+                break;
+            case "sabado":
+            case "domingo":
+                alert(dia + " no es un dia laborable");
+                break;
+            default:
+                alert("No valido");
+            }       
+    </script>
+</body>
+</html>

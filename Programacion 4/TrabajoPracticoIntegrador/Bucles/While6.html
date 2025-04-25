@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let a=1;
+        while(a==1){
+            let opcion = parseInt(prompt("1 - Saludar\n2 - Mostrar fecha actual\n3 - Mostrar un número aleatorio\n4 - Salir"));
+                if (opcion == 1) {
+                    alert("Hola todo bien?");
+                } else if (opcion == 2) {
+                    let fecha = new Date();
+                    alert("Fecha actual: " + fecha.toLocaleString());
+                } else if (opcion == 3) {
+                    let aleatorio = Math.floor(Math.random() * 100) + 1;
+                    alert("Numero aleatorio: " + aleatorio);
+                } else if (opcion == 4) {
+                    alert("Adios");
+                    break;
+                } else {
+                    alert("Opcion no valida");
+                }
+            }
+
+    </script>
+</body>
+</html>
