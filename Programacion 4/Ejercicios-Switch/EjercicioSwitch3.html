@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let num1 = parseInt(prompt("Ingrese un numero: "))
+        let num2 =parseInt(prompt("Ingrese otro numero: "))
+        let total = 0
+        let opcion = prompt("Elija que calculo desea realizar:\n(suma,resta,multiplicacion,division.)");
+        switch (opcion) {
+            case "suma":
+                total= num1+num2
+                alert("Suma: "+ total);
+                break;
+            case "resta":
+                total= num1-num2
+                alert("Resta: "+ total);
+                break;
+            case "multiplicacion":
+                total= num1*num2
+                alert("Multplicacion: "+ total);
+                break;
+            case "division":
+                total= num1/num2
+                alert("Divicion: "+ total);
+                break;
+            default:
+                alert("No valido");
+            }     
+    </script>
+</body>
+</html>
