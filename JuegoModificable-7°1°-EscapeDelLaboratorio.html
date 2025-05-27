@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // Variables del juego globales
+let salud = 100
+let inventario = ["vendaje sucio", "mano humana", "frasco con ácido"]
+let objetos = ["mano humana" , "frasco con ácido", "jeringa verde" , "hoja de papel" , "jeringa roja" ,"vendaje sucio", "galleta"]
+let enemigos = []
+let ayudaste = false, escapaste = false, muerte = false, ganar = false, yabusco = false, hablasteCon23 = false;
+let zona = ""
+let ultimaZona = ""
+const habitaciones = ["Oficina", "Sala de mantenimiento", "Almacén", "Laboratorio central","Celdas","Guarderia","Comedor","Sala de pruebas","Pasillos"]
+let habitacionesExploradas = 0, a = 0, saludEnemigo = 0;
+let enemigo = null;
+function inicio() { // Inicio del juego
+  alert("Sos un experimento fallido... y tenés que escapar del laboratorio abandonado.")
+  alert("Despiertas desconcertado.\nSientes frío y oscuridad...")
+  zona = "Zona de pruebas"
+}
+function menu(){ // Menu en el cual se transcurrira la mayoria de elecciones
+  const eleccion = parseInt(prompt(
+    `Salud: ${salud}\n--${zona}--\n¿Qué hacés?\n` +
+    "1. Buscar.\n" +
+    "2. Continuar a la siguiente sala.\n" +
+    "3. Usar inventario."
+  ))
+  return eleccion // Retornamos la elección
+}
+function usarInventario() { // Función para utilizar el inventario
+  if (inventario.length === 0) {
+    alert("Tu inventario está vacío.")
+    return
+  }
+
+
+  let mensajeInventario = "Inventario:\n"
+  for (let i = 0; i < inventario.length; i++) {
+    mensajeInventario += `${i + 1}. ${inventario[i]}\n`
+  }
+
+
+  mensajeInventario += "Elige un número para usar:"
+
+
+  const eleccion = parseInt(prompt(mensajeInventario))
+  const item = inventario[eleccion - 1]
+
+
+  if (item === "jeringa verde") {
+    salud += 30
+    alert("Usaste la jeringa verde. ¡+30 salud!")
+    inventario.splice(eleccion - 1, 1)
+  }
+   else if (item === "hoja de papel") {
+    alert("No hiciste nada.")
+    inventario.splice(eleccion - 1, 1)
+  }
+  else if (item === "galleta") {
+    alert("Comiste una galleta. +10 salud.")
+    salud += 10
+    inventario.splice(eleccion - 1, 1)
+  }
+  else if (item === "jeringa roja") {
+    alert("Usaste la jeringa roja. ¡+30 salud!")
+    inventario.splice(eleccion - 1, 1)
+  }
+  else if (item === "mano humana"){
+    a=a+1
+    if(a == 2){
+      alert("Por si alguien te pide una mano...\n -1 Salud")
+    } else if(a==4){
+      salud -= 2
+      alert("Notas que se mueve...")
+      alert("Se fue corriendo.\n Te asustas \n-2 Salud")
+      inventario.splice(eleccion - 1, 1)
+    }else{
+      salud -= 1
+      alert(".... \n-1 Salud")
+    }
+  }
+  else if (item === "frasco con ácido"){
+    alert("Puede ser útil...")
+   
+  } else if (item === "vendaje sucio"){
+    salud += 15
+    alert("Te envuelves como puedes, talvez sirva de algo. +15 Salud")
+    inventario.splice(eleccion - 1, 1)
+  }
+}
+function usarInventarioPelea() { // Función para utilizar el inventario en la pelea
+  if (inventario.length === 0) {
+    alert("Tu inventario está vacío.")
+    return
+  }
+
+
+  let mensajeInventario = "Inventario:\n"
+  for (let i = 0; i < inventario.length; i++) {
+    mensajeInventario += `${i + 1}. ${inventario[i]}\n`
+  }
+
+
+  mensajeInventario += "Elige un número para usar:"
+
+
+  const eleccion = parseInt(prompt(mensajeInventario))
+  const item = inventario[eleccion - 1]
+
+
+  if (item === "jeringa verde") {
+    salud += 30
+    alert("Usaste la jeringa verde. ¡+30 salud!")
+    inventario.splice(eleccion - 1, 1)
+  }
+  else if (item === "hoja de papel") {
+  if (enemigo.nombre === "Piedra con patas") {
+    alert("Eliges papel, esta decision parece afectar de forma psicologica a la piedra revoleando sus patas en el piso.")
+    enemigo.salud = 0
+  } else {
+    alert("Si tan solo pelearas contra una piedra...")
+  }
+  inventario.splice(eleccion - 1, 1)
+  return
+}
+  else if (item === "galleta") {
+    alert("Comiste una galleta. +10 salud.")
+    salud += 10
+    inventario.splice(eleccion - 1, 1)
+  }
+  else if (item === "jeringa roja") {
+    alert("Usaste la jeringa roja. -30 salud")
+    salud -= 30
+    inventario.splice(eleccion - 1, 1)
+  }
+ else if (item === "mano humana") {
+  if (enemigo.nombre === "El resto de la mano humana") {
+    alert("Sacas la mano humana y el resto se acerca corriendo de forma violenta hacia vos.\n Te mueves a un lado y lo esquivas, choca de forma violenta con la pared")
+    alert("Murio.")
+    enemigo.salud = 0
+  } else {
+    alert("Se la arrojas pero no parece causarle daño.")
+  }
+  inventario.splice(eleccion - 1, 1)
+  return
+}
+ 
+  else if (item === "frasco con ácido"){
+    alert("Se lo arrojas y ves como grita y se derrite enfrente tuyo...\n Lo que queda está licuado en el piso")
+    enemigo.salud = 0
+    inventario.splice(eleccion - 1, 1)
+   
+  } else if (item === "vendaje sucio"){
+    salud += 15
+    alert("Te envuelves como puedes rápida,en +15 Salud")
+    inventario.splice(eleccion - 1, 1)
+  }
+}
+function Enemigo() { // Simulación de aparición del enemigo
+  if (Math.random() > 0.75) {
+    alert("Todo está silencioso... no parece haber nada por aquí.");
+    return;
+  }
+ const enemigosDisponibles = [
+    {
+      nombre: "Experimento 23",
+      salud: 40,
+      descripcion: "Una figura encorvada con ojos brillantes. Parece confundido, no agresivo..."
+    },
+    {
+      nombre: "Amalgama",
+      salud: 30,
+      descripcion: "Sus cientos de ojos te miran de forma violenta. No parece querer hablar."
+    },
+    {
+      nombre: "Piedra con patas",
+      salud: 80,
+      descripcion: "Parece ser una piedra... pero con patas, mueve sus pies de forma amenazante",
+    },
+    {
+      nombre: "El resto de la mano humana",
+      salud: 100,
+      descripcion: "Un hombre desnudo que corre desenfrenadamente mientras se agarra el brazo y grita.\n Ni siquiera parece notarte...",
+    },
+    {
+      nombre: "Guardia",
+      salud: 60,
+      descripcion: "Un guardia de las instalaciones, o bueno... lo que queda de el.\nNo parece amigable, se acerca de forma agresiva.",
+    },
+    {
+      nombre: "Enano azul",
+      salud: 20,
+      descripcion: "Por razones legales nos vemos obligados a aclarar que no hay \nninguna relacion con la apariencia del enemigo y la de los pitufos.\n Parece molesto por eso..."
+    },
+    {
+      nombre: "Perro Gato",
+      salud: 40,
+      descripcion: "¿Un perro con cabeza de gato o un gato con cuerpo de perro?\nLo que importa al final es que te mira, y tiene hambre.",
+    },
+    {
+      nombre: "Tu propia sombra",
+      salud: 40,
+      descripcion: "Parece que tu sombra se revelo, se mueve sin ti...\n¿Sera tu sombra?",
+    }
+  ];
+
+
+  enemigo = enemigosDisponibles[Math.floor(Math.random() * enemigosDisponibles.length)];
+  enemigo.saludInicial = enemigo.salud;
+  alert(`¡Te encontraste con ${enemigo.nombre}!\n${enemigo.descripcion}`);
+  enemigos.push(enemigo); // Se añade al array de enemigos activos
+
+  while (enemigo.salud > 0 && salud > 0) {
+    let accion = parseInt(prompt(
+      `Tu salud: ${salud} | Salud de ${enemigo.nombre}: ${enemigo.salud}\n` +
+      "1. Atacar\n" +
+      "2. Usar inventario\n" +
+      "3. Hablar\n" +
+      "4. Escapar"
+    ));
+
+
+    switch (accion) {
+      case 1:
+      if (enemigo.nombre === "El resto de la mano humana") {
+        alert("Es demasiado rápido... ni siquiera logras tocarlo.");
+        break;
+      }  
+      let daño = Math.random() < 0.25 ? 40 : 20;
+      if (daño === 40) {
+        alert(`¡CRÍTICO!'Le hacés ${daño} de daño.\nTe hace 20 de daño.`);
+      }  else {
+        alert(`Le hacés ${daño} de daño.\nTe hace 20 de daño.`);
+      }
+      enemigo.salud -= daño;
+      salud -= 20;
+      break
+      case 2:
+        usarInventarioPelea();
+        break;
+      case 3: 
+  if (enemigo.nombre === "Experimento 23") {
+    if (!hablasteCon23) {
+      alert("El experimento 23 te mira confundido.\n'¿Quién eres...? ¿Nos están observando...?'")
+      let respuesta = parseInt(prompt("¿Lo ayudas a escapar?\n1. Sí\n2. No"))
+      if (respuesta === 1) {
+        alert("Yo te sigo.")
+        ayudaste = true
+      } else {
+        alert("Se aleja con miedo. Quizás perdiste una oportunidad...")
+      }
+      hablasteCon23 = true
+      eliminarEnemigoActual() // Se elimina en ambos casos
+      return
+    } else {
+      alert("Ya hablaste con él. Te observa a la distancia.")
+    }
+  } else {
+    alert("No parece querer hablar.")
+  }
+  break
+
+      case 4:
+        if (Math.random() < 0.3) {
+          alert("Lograste escapar.")
+          return;
+        } else {
+          daño =30
+          salud -= daño
+          alert(`¡Fallaste al escapar! Te golpea. -${daño} salud.`)
+        }
+        break;
+      default:
+        alert("Opción inválida.")
+    }
+  }
+
+
+  if (enemigo.salud <= 0) {
+    alert(`${enemigo.nombre} ha sido derrotado.`)
+    // Solo lo eliminamos del array si es Experimento 23 o El resto de la mano
+    if (enemigo.nombre === "Experimento 23" || enemigo.nombre === "El resto de la mano humana") {
+      eliminarEnemigoActual()
+    }
+  }
+}
+function eliminarEnemigoActual() {
+  enemigos = enemigos.filter(e => e.nombre !== enemigo.nombre)
+}
+function Objeto() { //Funcion para randomizar y añadir objeto al inventario
+ 
+  const indice = Math.floor(Math.random() * objetos.length)
+  const objetoEncontrado = objetos[indice]
+  alert(`Encontraste un objeto: ${objetoEncontrado}`)
+  inventario.push(objetoEncontrado)
+
+
+}
+function Habitaciones (){ //Se elije la habitacion siguiente y se le da un contexto
+  const indice = Math.floor(Math.random() * habitaciones.length)
+  const nuevaZona = habitaciones[indice]
+ 
+  if (nuevaZona !== zona) {
+    zona = nuevaZona
+    habitacionesExploradas++
+  }
+
+
+  switch (zona){
+   
+    case "Oficina":
+      zona="Oficina"
+      alert("Entras a lo que parece una oficina.\nMuchos cubiculos e interminables papeles con cosas que no logras comprender.\nPor como esta todo tirado y revuelto sabes que algo malo paso por aqui.")
+      break
+    case "Sala de mantenimiento":
+      zona = "Sala de mantenimiento"
+      alert("Entras a lo que parece una sala de mantenimiento.\nEl olor a aceite y gasolina te marea\nQuizas haya algo util por aqui...")
+      break
+    case "Almacén":
+      zona = "Almacén"
+      alert("Entras a lo que parece un almacén.\nPasillos largos y oscuros como si fueran un laverinto retorcido de cajas apiladas\nEl silencio es abrumador e inquietante\nLas cajas parecen abiertas desde dentro...")
+      break
+    case "Laboratorio central":
+      zona = "Laboratorio central"
+      alert("Entras a lo que parece un laboratorio, el mas grande que hayas visto.\nUn rojo carmin resalta en las blancas batas tiradas en el suelo.\nMaquinas enormes de las cuales no entiendes su funcion.\nLo sientes nostalgico...")
+      break
+      case "Pasillos":
+      zona = "Pasillos"
+      alert("Sales a unos pasillos largos y con luces tenues, multiples giros y caminos sin salida.\nCasi como un laberinto.\n Las luces se apagan de forma intermitente y el silencio hace que tus pasos suenen cada vez mas fuertes.")
+      break
+      case "Celdas":
+      zona = "Celdas"
+      alert("Entras a lo que parece ser un conjunto de celdas, las barras metalicas y las cadenas rondan todo el lugar. El olor al hierro tanto de la sangre como de lo que esta hecho todo te hace pensar que habra pasado en el lugar...")
+      break
+      case "Comedor":
+      zona = "Comedor"
+      alert("Entras a lo que parece un comedor, el olor a podrido inunda el lugar no te atrevez a pasar por la cocina.")
+      break
+      case "Sala de pruebas":
+      zona = "Sala de pruebas"
+      alert("Entras a lo que parece una sala de pruebas, pero mas que pruebas parece una sala de tortura medieval moderna. Una energia oscura rodea el lugar...")
+      break
+      case "Guarderia":
+      zona = "Guarderia"
+      alert("Entras a lo que parece una guarderia, dudas del porque de la existencia de este lugar\nLos recuerdos te invaden los sonidos de otros chicos que talvez hayan sido tus amigos llenan el lugar\n Vuelves a la realidad, lo que un dia era felicidad hoy es oscuro y derruido\n Tienes que escapar.")
+      break
+  }
+if (Math.random() > 0.25) {
+    Enemigo()
+  }
+return zona
+
+
+}
+function JUEGO(){//Bucle principal en el cual participan la mayoria de funciones
+  while(!escapaste && !muerte){
+  if (zona !== ultimaZona) {
+    yabusco = false
+    ultimaZona = zona
+  }
+  eleccion = menu()
+  switch (eleccion) {
+
+
+  case 1:
+      if (yabusco== true){
+        alert("No hay nada más aquí.")
+      }else{
+        Objeto()
+        Enemigo()
+        alert("No hay nada más aquí.")
+        yabusco=true
+      }
+    break
+
+
+  case 2:
+    Habitaciones()
+    break
+
+
+  case 3:
+    usarInventario()
+    break
+
+
+  default:
+    alert("Opción inválida.")
+}
+if (salud<=0){
+  muerte=true
+}
+if (habitacionesExploradas >= 10) {
+  escapaste = true
+}
+}
+}
+function Final(){
+  if(escapaste==true&&ayudaste==true){  
+  alert("Ves la puerta a tu libertad corres con tu amigo y sientes el sol sobre cara.\n A tus espaldas llega un grupo de guardias armados hasta los dientes\n Sabes que vienen por ti.\n De la nada el experimento numero 23 salta al interior del laboratorio cerrando las puertas desde dentro, Te desea lo mejor, lo sabes con la mirada.\n")
+  alert("¡Lograte escapar!... pero sientes tristeza.")
+}else if(escapaste==true&&ayudaste==false){
+  alert("Ves la puerta corres hacia tu libertad y sientes el sol sobre tu cara\n A tus espaldas llega un grupo de guardias armados hasta los dientes\n Sabes que vienen por ti.\n Tratas de correr pero son mas rapidos\n Caes y te desmayas\n Despiertas en una celda, vacia y fria\n No creo que puedas volver a salir...")
+  alert("Bad ending")
+}else if(muerte==true){
+  alert("Tu cuerpo llego a su limite\nTodo a tu alrededor se oscurece\nSabes que el final esta cerca...")
+  alert("Has muerto.")
+}
+}
+// Ejecutamos el inicio
+inicio()
+//Inicio Bucle Principal (Juego)
+JUEGO()
+//Final fuera del bucle principal
+Final()
+    </script>
+</body>
+</html>
