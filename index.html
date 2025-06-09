@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Blog de Bases de Datos Relacionales</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header, footer, nav, main, aside {
+      padding: 1em;
+    }
+    header {
+      background-color: blue;
+      color: white;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      gap: 1em;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+    }
+    main {
+      padding: 1em;
+      background-color: #f0f0f0;
+    }
+    aside {
+      background-color: #e9d8a6;
+    }
+    footer {
+      background-color: #001219;
+      color: white;
+      text-align: center;
+    }
+    form {
+      margin-top: 2em;
+      background-color: #ffffff;
+      padding: 1em;
+      border-radius: 8px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 0.5em;
+      margin-top: 0.5em;
+      margin-bottom: 1em;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 1em;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.5em;
+    }
+    th {
+      background-color: #94d2bd;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Aprendiendo SQL y Bases de Datos</h1>
+    <nav>
+      <ul>
+        <li><a href="#introduccion">Introducción</a></li>
+        <li><a href="#comandos">Comandos SQL</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <article id="introduccion">
+      <h2>¿Qué es una Base de Datos Relacional?</h2>
+      <p>Una base de datos relacional es un sistema que almacena datos organizados en tablas que pueden relacionarse entre sí mediante claves. Son de suma importancia en el mundo debido que toda gran empresa trabaja con ellas.</p>
+      <p>Estas se pueden bazar en diferentes plataformas, pero siempre mantienen el lenguaje (SQL), algunas de esas plataformas son:</p>
+      <ul>
+        <li>MySQL</li>
+        <li>PostgreSQL</li>
+        <li>Oracle Database</li>
+      </ul>
+      <figure>
+        <img src="https://cdn-ajfbi.nitrocdn.com/GuYcnotRkcKfJXshTEEKnCZTOtUwxDnm/assets/images/optimized/rev-a9e8684/www.astera.com/wp-content/uploads/2019/05/DBI-1.jpg" alt="Basedato" width="600">
+        <figcaption>Ejemplo de esquema de base de datos relacional</figcaption>
+      </figure>
+    </article>
+
+    <article id="comandos">
+      <h2>Comandos Básicos de SQL</h2>
+
+      <section>
+        <h3>SELECT</h3>
+        <p>Se usa para consultar datos en una tabla.</p>
+        <p><code>SELECT * FROM usuarios;</code></p>
+      </section>
+
+      <section>
+        <h3>INSERT</h3>
+        <p>Se usa para crear nuevos registros en una tabla.</p>
+        <p><code>INSERT INTO usuarios (nombre, edad) VALUES ('Ana', 25);</code></p>
+      </section>
+
+      <section>
+        <h3>UPDATE</h3>
+        <p>Actualiza los datos en una tabla.</p>
+        <p><code>UPDATE usuarios SET edad = 26 WHERE nombre = 'Ana';</code></p>
+      </section>
+
+      <section>
+        <h3>DELETE</h3>
+        <p>Elimina registros de una tabla.</p>
+        <p><code>DELETE FROM usuarios WHERE nombre = 'Ana';</code></p>
+      </section>
+
+      <section>
+        <h3>Comparación de Comandos</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Comando</th>
+              <th>Acción</th>
+              <th>Ejemplo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>SELECT</td>
+              <td>Consulta datos</td>
+              <td><code>SELECT * FROM productos;</code></td>
+            </tr>
+            <tr>
+              <td>INSERT</td>
+              <td>Agrega datos</td>
+              <td><code>INSERT INTO productos VALUES (...);</code></td>
+            </tr>
+            <tr>
+              <td>UPDATE</td>
+              <td>Modifica datos</td>
+              <td><code>UPDATE productos SET ...;</code></td>
+            </tr>
+            <tr>
+              <td>DELETE</td>
+              <td>Elimina datos</td>
+              <td><code>DELETE FROM productos WHERE ...;</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </article>
+  </main>
+
+  <aside>
+    <h3>Recursos Adicionales</h3>
+    <ul>
+      <li><a href="https://www.w3schools.com/sql/" target="_blank">Tutorial SQL en W3Schools</a></li>
+    </ul>
+    <p>Gracias por leer!</p>
+  </aside>
+
+
+  <footer>
+    <p>© 2024 - Blog creado por Santiago Leon</p>
+    <p>Materia: Programación IV | Docente: Verónica Godoy | Curso: 7mo1ra</p>
+  </footer>
+
+  <section>
+    <h2>Deje un comentario</h2>
+    <form>
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" name="nombre" required>
+
+      <label for="comentario">Comentario:</label>
+      <textarea id="comentario" name="comentario" rows="4" required></textarea>
+
+      <input type="submit" value="Enviar">
+    </form>
+  </section>
+</body>
+</html>
